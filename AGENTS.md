@@ -23,7 +23,7 @@ Workspace crates:
 
 Python code:
 
-* `python/`: reinforcement learning, self-play, experiments, training utilities.
+* `python/`: reinforcement learning, self-play, experiments, training utilities. Machine learning is done with PyTorch.
 
 The Rust engine must not depend on Python code.
 
@@ -231,7 +231,7 @@ Python is responsible for:
 * logging
 * experiment scripts
 
-Keep the initial RL implementation simple.
+Keep the initial RL implementation simple. The ML package to use is PyTorch.
 
 Do not implement AlphaZero-style MCTS unless explicitly requested.
 
