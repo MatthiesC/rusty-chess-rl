@@ -65,7 +65,7 @@ The Rust engine must not depend on Python code.
 
 ## Python Guidelines
 
-Python version: 3.13
+Python version: 3.14
 
 Use `uv` for all Python dependency and environment management.
 
