@@ -6,14 +6,14 @@ fn square(file: u8, rank: u8) -> Square {
 
 #[test]
 fn empty_board_contains_no_pieces() {
-    let board = Board::empty();
+    let board: Board = Board::empty();
 
     assert!(board.iter().all(|(_, piece)| piece.is_none()));
 }
 
 #[test]
 fn starting_position_has_expected_pieces() {
-    let board = Board::starting_position();
+    let board: Board = Board::starting_position();
 
     assert_eq!(
         board.piece_at(square(0, 0)),
@@ -36,13 +36,13 @@ fn starting_position_has_expected_pieces() {
 
 #[test]
 fn starting_position_contains_sixteen_pieces_per_color() {
-    let board = Board::starting_position();
+    let board: Board = Board::starting_position();
 
-    let white_count = board
+    let white_count: usize = board
         .iter()
         .filter(|(_, piece)| piece.is_some_and(|piece| piece.color() == Color::White))
         .count();
-    let black_count = board
+    let black_count: usize = board
         .iter()
         .filter(|(_, piece)| piece.is_some_and(|piece| piece.color() == Color::Black))
         .count();
@@ -53,9 +53,9 @@ fn starting_position_contains_sixteen_pieces_per_color() {
 
 #[test]
 fn set_piece_replaces_and_clears_square() {
-    let mut board = Board::empty();
-    let e4 = square(4, 3);
-    let pawn = Piece::new(Color::White, PieceKind::Pawn);
+    let mut board: Board = Board::empty();
+    let e4: Square = square(4, 3);
+    let pawn: Piece = Piece::new(Color::White, PieceKind::Pawn);
 
     assert_eq!(board.set_piece(e4, Some(pawn)), None);
     assert_eq!(board.piece_at(e4), Some(pawn));
@@ -65,18 +65,15 @@ fn set_piece_replaces_and_clears_square() {
 
 #[test]
 fn iteration_visits_every_square_in_index_order() {
-    let board = Board::empty();
-    let indices = board
-        .iter()
-        .map(|(square, _)| square.index())
-        .collect::<Vec<_>>();
+    let board: Board = Board::empty();
+    let indices: Vec<u8> = board.iter().map(|(square, _)| square.index()).collect();
 
     assert_eq!(indices, (0..Square::COUNT).collect::<Vec<_>>());
 }
 
 #[test]
 fn renders_empty_board_as_ascii() {
-    let board = Board::empty();
+    let board: Board = Board::empty();
 
     assert_eq!(
         board.to_string(),
@@ -95,7 +92,7 @@ fn renders_empty_board_as_ascii() {
 
 #[test]
 fn renders_starting_position_as_ascii() {
-    let board = Board::starting_position();
+    let board: Board = Board::starting_position();
 
     assert_eq!(
         board.to_string(),

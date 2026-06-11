@@ -37,7 +37,7 @@ impl Board {
             PieceKind::Rook,
         ];
 
-        let mut board = Self::empty();
+        let mut board: Self = Self::empty();
 
         for (file, kind) in (0..Square::FILE_COUNT).zip(BACK_RANK) {
             board.squares[file as usize] = Some(Piece::new(Color::White, kind));
@@ -75,7 +75,7 @@ impl Board {
     ///
     /// Returns [`MoveError::EmptySource`] if the move's source contains no piece.
     pub fn apply_move(&mut self, chess_move: Move) -> Result<MoveOutcome, MoveError> {
-        let moved = self
+        let moved: Piece = self
             .piece_at(chess_move.from())
             .ok_or(MoveError::EmptySource(chess_move.from()))?;
 
@@ -84,7 +84,7 @@ impl Board {
         }
 
         self.set_piece(chess_move.from(), None);
-        let captured = self.set_piece(chess_move.to(), Some(moved));
+        let captured: Option<Piece> = self.set_piece(chess_move.to(), Some(moved));
 
         Ok(MoveOutcome::new(moved, captured))
     }
@@ -92,7 +92,7 @@ impl Board {
     /// Iterates over every square and its optional piece from `a1` to `h8`.
     pub fn iter(&self) -> impl Iterator<Item = (Square, Option<Piece>)> + '_ {
         self.squares.iter().enumerate().map(|(index, piece)| {
-            let square = Square::from_index(index as u8)
+            let square: Square = Square::from_index(index as u8)
                 .expect("board storage indices always correspond to valid squares");
             (square, *piece)
         })
@@ -109,9 +109,9 @@ impl fmt::Display for Board {
                     formatter.write_str(" ")?;
                 }
 
-                let square =
+                let square: Square =
                     Square::new(file, rank).expect("board coordinates always form valid squares");
-                let symbol = self.piece_at(square).map_or('.', piece_symbol);
+                let symbol: char = self.piece_at(square).map_or('.', piece_symbol);
                 write!(formatter, "{symbol}")?;
             }
 

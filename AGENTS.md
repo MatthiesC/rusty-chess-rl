@@ -61,6 +61,9 @@ The Rust engine must not depend on Python code.
 * Prefer exhaustive pattern matching.
 * Keep the Rust chess engine deterministic.
 * Keep Rust code and comments within a maximum line width of 100 characters.
+* Add explicit type annotations to local bindings whenever Rust syntax permits and the type is
+  nameable. Leave loop and closure pattern bindings inferred when annotations would require
+  restructuring otherwise clear code.
 
 ---
 

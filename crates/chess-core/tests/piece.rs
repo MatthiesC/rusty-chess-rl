@@ -8,7 +8,7 @@ fn colors_are_opposites() {
 
 #[test]
 fn piece_preserves_color_and_kind() {
-    let piece = Piece::new(Color::White, PieceKind::Knight);
+    let piece: Piece = Piece::new(Color::White, PieceKind::Knight);
 
     assert_eq!(piece.color(), Color::White);
     assert_eq!(piece.kind(), PieceKind::Knight);
