@@ -21,7 +21,9 @@ fn applies_basic_move_without_rule_validation() {
     let to = square(4, 4);
     let rook = Piece::new(Color::White, PieceKind::Rook);
 
-    let outcome = board.apply_move(Move::new(from, to)).expect("source contains a piece");
+    let outcome = board
+        .apply_move(Move::new(from, to))
+        .expect("source contains a piece");
 
     assert_eq!(outcome.moved(), rook);
     assert_eq!(outcome.captured(), None);
@@ -37,7 +39,9 @@ fn applying_move_replaces_and_reports_destination_piece() {
     let white_rook = Piece::new(Color::White, PieceKind::Rook);
     let black_rook = Piece::new(Color::Black, PieceKind::Rook);
 
-    let outcome = board.apply_move(Move::new(from, to)).expect("source contains a piece");
+    let outcome = board
+        .apply_move(Move::new(from, to))
+        .expect("source contains a piece");
 
     assert_eq!(outcome.moved(), white_rook);
     assert_eq!(outcome.captured(), Some(black_rook));

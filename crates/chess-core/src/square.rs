@@ -1,7 +1,7 @@
 /// A square on a chess board.
 ///
-/// Files and ranks are zero-based: file `0` is `a`, rank `0` is rank `1`, and square index `0` is `a1`. A `Square`
-/// always contains a valid board index.
+/// Files and ranks are zero-based: file `0` is `a`, rank `0` is rank `1`, and square index `0`
+/// is `a1`. A `Square` always contains a valid board index.
 #[derive(Clone, Copy, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub struct Square(u8);
 
@@ -32,7 +32,11 @@ impl Square {
     /// Returns `None` if `index` is outside the board.
     #[must_use]
     pub const fn from_index(index: u8) -> Option<Self> {
-        if index < Self::COUNT { Some(Self(index)) } else { None }
+        if index < Self::COUNT {
+            Some(Self(index))
+        } else {
+            None
+        }
     }
 
     /// Returns the square's zero-based file.

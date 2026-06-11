@@ -60,7 +60,7 @@ The Rust engine must not depend on Python code.
 * Use `Result` for recoverable errors.
 * Prefer exhaustive pattern matching.
 * Keep the Rust chess engine deterministic.
-* Keep Rust code within a maximum line width of 120 characters.
+* Keep Rust code and comments within a maximum line width of 100 characters.
 
 ---
 
@@ -94,6 +94,7 @@ All Python code must:
 * pass `mypy`
 * avoid untyped public APIs
 * keep training code separate from environment bindings
+* stay within a maximum line width of 100 characters
 
 ---
 

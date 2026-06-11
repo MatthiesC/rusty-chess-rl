@@ -4,7 +4,8 @@ use crate::{Piece, Square};
 
 /// A request to move a piece from one square to another.
 ///
-/// A move describes only its source and destination. It does not imply that the move follows chess rules.
+/// A move describes only its source and destination. It does not imply that the move follows
+/// chess rules.
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub struct Move {
     from: Square,
