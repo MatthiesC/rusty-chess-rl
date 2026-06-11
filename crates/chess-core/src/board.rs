@@ -1,4 +1,4 @@
-use crate::{Color, Piece, PieceKind, Square};
+use crate::{Color, Move, MoveError, MoveOutcome, Piece, PieceKind, Square};
 
 /// A chess board containing at most one piece on each of its 64 squares.
 ///
@@ -58,6 +58,31 @@ impl Board {
     /// Passing `None` clears the square.
     pub fn set_piece(&mut self, square: Square, piece: Option<Piece>) -> Option<Piece> {
         std::mem::replace(&mut self.squares[square.index() as usize], piece)
+    }
+
+    /// Applies a basic move without validating chess movement rules.
+    ///
+    /// The source piece replaces any piece at the destination. Moving a piece
+    /// to its current square succeeds without changing the board. The board is
+    /// unchanged if the source square is empty.
+    ///
+    /// # Errors
+    ///
+    /// Returns [`MoveError::EmptySource`] if the move's source contains no
+    /// piece.
+    pub fn apply_move(&mut self, chess_move: Move) -> Result<MoveOutcome, MoveError> {
+        let moved = self
+            .piece_at(chess_move.from())
+            .ok_or(MoveError::EmptySource(chess_move.from()))?;
+
+        if chess_move.from() == chess_move.to() {
+            return Ok(MoveOutcome::new(moved, None));
+        }
+
+        self.set_piece(chess_move.from(), None);
+        let captured = self.set_piece(chess_move.to(), Some(moved));
+
+        Ok(MoveOutcome::new(moved, captured))
     }
 
     /// Iterates over every square and its optional piece from `a1` to `h8`.

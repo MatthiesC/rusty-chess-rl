@@ -4,9 +4,11 @@
 //! squares are indexed from `a1` to `h8`.
 
 mod board;
+mod chess_move;
 mod piece;
 mod square;
 
 pub use board::Board;
+pub use chess_move::{Move, MoveError, MoveOutcome};
 pub use piece::{Color, Piece, PieceKind};
 pub use square::Square;
