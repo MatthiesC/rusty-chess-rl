@@ -1,9 +1,14 @@
+use std::fmt;
+
 use crate::{Color, Move, MoveError, MoveOutcome, Piece, PieceKind, Square};
 
 /// A chess board containing at most one piece on each of its 64 squares.
 ///
 /// The board stores only piece placement. Turn, castling rights, en passant,
 /// and move counters belong to a future game-state type.
+///
+/// Its [`fmt::Display`] representation renders an ASCII board with uppercase
+/// white pieces, lowercase black pieces, and `.` for empty squares.
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct Board {
     squares: [Option<Piece>; Square::COUNT as usize],
@@ -92,5 +97,45 @@ impl Board {
                 .expect("board storage indices always correspond to valid squares");
             (square, *piece)
         })
+    }
+}
+
+impl fmt::Display for Board {
+    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+        for rank in (0..Square::RANK_COUNT).rev() {
+            write!(formatter, "{} ", rank + 1)?;
+
+            for file in 0..Square::FILE_COUNT {
+                if file > 0 {
+                    formatter.write_str(" ")?;
+                }
+
+                let square =
+                    Square::new(file, rank).expect("board coordinates always form valid squares");
+                let symbol = self.piece_at(square).map_or('.', piece_symbol);
+                write!(formatter, "{symbol}")?;
+            }
+
+            formatter.write_str("\n")?;
+        }
+
+        formatter.write_str("  a b c d e f g h")
+    }
+}
+
+const fn piece_symbol(piece: Piece) -> char {
+    match (piece.color(), piece.kind()) {
+        (Color::White, PieceKind::Pawn) => 'P',
+        (Color::White, PieceKind::Knight) => 'N',
+        (Color::White, PieceKind::Bishop) => 'B',
+        (Color::White, PieceKind::Rook) => 'R',
+        (Color::White, PieceKind::Queen) => 'Q',
+        (Color::White, PieceKind::King) => 'K',
+        (Color::Black, PieceKind::Pawn) => 'p',
+        (Color::Black, PieceKind::Knight) => 'n',
+        (Color::Black, PieceKind::Bishop) => 'b',
+        (Color::Black, PieceKind::Rook) => 'r',
+        (Color::Black, PieceKind::Queen) => 'q',
+        (Color::Black, PieceKind::King) => 'k',
     }
 }

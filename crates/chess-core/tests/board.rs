@@ -73,3 +73,41 @@ fn iteration_visits_every_square_in_index_order() {
 
     assert_eq!(indices, (0..Square::COUNT).collect::<Vec<_>>());
 }
+
+#[test]
+fn renders_empty_board_as_ascii() {
+    let board = Board::empty();
+
+    assert_eq!(
+        board.to_string(),
+        "\
+8 . . . . . . . .
+7 . . . . . . . .
+6 . . . . . . . .
+5 . . . . . . . .
+4 . . . . . . . .
+3 . . . . . . . .
+2 . . . . . . . .
+1 . . . . . . . .
+  a b c d e f g h"
+    );
+}
+
+#[test]
+fn renders_starting_position_as_ascii() {
+    let board = Board::starting_position();
+
+    assert_eq!(
+        board.to_string(),
+        "\
+8 r n b q k b n r
+7 p p p p p p p p
+6 . . . . . . . .
+5 . . . . . . . .
+4 . . . . . . . .
+3 . . . . . . . .
+2 P P P P P P P P
+1 R N B Q K B N R
+  a b c d e f g h"
+    );
+}
