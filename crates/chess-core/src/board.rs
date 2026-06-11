@@ -4,11 +4,11 @@ use crate::{Color, Move, MoveError, MoveOutcome, Piece, PieceKind, Square};
 
 /// A chess board containing at most one piece on each of its 64 squares.
 ///
-/// The board stores only piece placement. Turn, castling rights, en passant,
-/// and move counters belong to a future game-state type.
+/// The board stores only piece placement. Turn, castling rights, en passant, and move counters belong to a future
+/// game-state type.
 ///
-/// Its [`fmt::Display`] representation renders an ASCII board with uppercase
-/// white pieces, lowercase black pieces, and `.` for empty squares.
+/// Its [`fmt::Display`] representation renders an ASCII board with uppercase white pieces, lowercase black pieces,
+/// and `.` for empty squares.
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct Board {
     squares: [Option<Piece>; Square::COUNT as usize],
@@ -64,14 +64,12 @@ impl Board {
 
     /// Applies a basic move without validating chess movement rules.
     ///
-    /// The source piece replaces any piece at the destination. Moving a piece
-    /// to its current square succeeds without changing the board. The board is
-    /// unchanged if the source square is empty.
+    /// The source piece replaces any piece at the destination. Moving a piece to its current square succeeds without
+    /// changing the board. The board is unchanged if the source square is empty.
     ///
     /// # Errors
     ///
-    /// Returns [`MoveError::EmptySource`] if the move's source contains no
-    /// piece.
+    /// Returns [`MoveError::EmptySource`] if the move's source contains no piece.
     pub fn apply_move(&mut self, chess_move: Move) -> Result<MoveOutcome, MoveError> {
         let moved = self
             .piece_at(chess_move.from())
