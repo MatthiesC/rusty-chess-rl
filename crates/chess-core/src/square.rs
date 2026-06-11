@@ -32,11 +32,7 @@ impl Square {
     /// Returns `None` if `index` is outside the board.
     #[must_use]
     pub const fn from_index(index: u8) -> Option<Self> {
-        if index < Self::COUNT {
-            Some(Self(index))
-        } else {
-            None
-        }
+        if index < Self::COUNT { Some(Self(index)) } else { None }
     }
 
     /// Returns the square's zero-based file.

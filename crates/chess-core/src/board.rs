@@ -41,12 +41,9 @@ impl Board {
 
         for (file, kind) in (0..Square::FILE_COUNT).zip(BACK_RANK) {
             board.squares[file as usize] = Some(Piece::new(Color::White, kind));
-            board.squares[(Square::FILE_COUNT + file) as usize] =
-                Some(Piece::new(Color::White, PieceKind::Pawn));
-            board.squares[(6 * Square::FILE_COUNT + file) as usize] =
-                Some(Piece::new(Color::Black, PieceKind::Pawn));
-            board.squares[(7 * Square::FILE_COUNT + file) as usize] =
-                Some(Piece::new(Color::Black, kind));
+            board.squares[(Square::FILE_COUNT + file) as usize] = Some(Piece::new(Color::White, PieceKind::Pawn));
+            board.squares[(6 * Square::FILE_COUNT + file) as usize] = Some(Piece::new(Color::Black, PieceKind::Pawn));
+            board.squares[(7 * Square::FILE_COUNT + file) as usize] = Some(Piece::new(Color::Black, kind));
         }
 
         board
@@ -93,8 +90,8 @@ impl Board {
     /// Iterates over every square and its optional piece from `a1` to `h8`.
     pub fn iter(&self) -> impl Iterator<Item = (Square, Option<Piece>)> + '_ {
         self.squares.iter().enumerate().map(|(index, piece)| {
-            let square = Square::from_index(index as u8)
-                .expect("board storage indices always correspond to valid squares");
+            let square =
+                Square::from_index(index as u8).expect("board storage indices always correspond to valid squares");
             (square, *piece)
         })
     }
@@ -110,8 +107,7 @@ impl fmt::Display for Board {
                     formatter.write_str(" ")?;
                 }
 
-                let square =
-                    Square::new(file, rank).expect("board coordinates always form valid squares");
+                let square = Square::new(file, rank).expect("board coordinates always form valid squares");
                 let symbol = self.piece_at(square).map_or('.', piece_symbol);
                 write!(formatter, "{symbol}")?;
             }

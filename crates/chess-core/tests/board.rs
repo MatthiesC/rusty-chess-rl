@@ -66,10 +66,7 @@ fn set_piece_replaces_and_clears_square() {
 #[test]
 fn iteration_visits_every_square_in_index_order() {
     let board = Board::empty();
-    let indices = board
-        .iter()
-        .map(|(square, _)| square.index())
-        .collect::<Vec<_>>();
+    let indices = board.iter().map(|(square, _)| square.index()).collect::<Vec<_>>();
 
     assert_eq!(indices, (0..Square::COUNT).collect::<Vec<_>>());
 }
