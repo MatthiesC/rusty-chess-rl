@@ -60,4 +60,21 @@ impl Piece {
     pub const fn kind(self) -> PieceKind {
         self.kind
     }
+
+    pub(crate) const fn symbol(self) -> char {
+        match (self.color, self.kind) {
+            (Color::White, PieceKind::Pawn) => 'P',
+            (Color::White, PieceKind::Knight) => 'N',
+            (Color::White, PieceKind::Bishop) => 'B',
+            (Color::White, PieceKind::Rook) => 'R',
+            (Color::White, PieceKind::Queen) => 'Q',
+            (Color::White, PieceKind::King) => 'K',
+            (Color::Black, PieceKind::Pawn) => 'p',
+            (Color::Black, PieceKind::Knight) => 'n',
+            (Color::Black, PieceKind::Bishop) => 'b',
+            (Color::Black, PieceKind::Rook) => 'r',
+            (Color::Black, PieceKind::Queen) => 'q',
+            (Color::Black, PieceKind::King) => 'k',
+        }
+    }
 }

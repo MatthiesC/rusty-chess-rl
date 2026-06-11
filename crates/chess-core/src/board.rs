@@ -111,7 +111,7 @@ impl fmt::Display for Board {
 
                 let square: Square =
                     Square::new(file, rank).expect("board coordinates always form valid squares");
-                let symbol: char = self.piece_at(square).map_or('.', piece_symbol);
+                let symbol: char = self.piece_at(square).map_or('.', Piece::symbol);
                 write!(formatter, "{symbol}")?;
             }
 
@@ -119,22 +119,5 @@ impl fmt::Display for Board {
         }
 
         formatter.write_str("  a b c d e f g h")
-    }
-}
-
-const fn piece_symbol(piece: Piece) -> char {
-    match (piece.color(), piece.kind()) {
-        (Color::White, PieceKind::Pawn) => 'P',
-        (Color::White, PieceKind::Knight) => 'N',
-        (Color::White, PieceKind::Bishop) => 'B',
-        (Color::White, PieceKind::Rook) => 'R',
-        (Color::White, PieceKind::Queen) => 'Q',
-        (Color::White, PieceKind::King) => 'K',
-        (Color::Black, PieceKind::Pawn) => 'p',
-        (Color::Black, PieceKind::Knight) => 'n',
-        (Color::Black, PieceKind::Bishop) => 'b',
-        (Color::Black, PieceKind::Rook) => 'r',
-        (Color::Black, PieceKind::Queen) => 'q',
-        (Color::Black, PieceKind::King) => 'k',
     }
 }
