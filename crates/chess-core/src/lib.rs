@@ -1,14 +1,12 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
-}
+//! Core chess rules and board representation.
+//!
+//! The crate uses strong domain types and keeps the engine deterministic. Board
+//! squares are indexed from `a1` to `h8`.
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+mod board;
+mod piece;
+mod square;
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
-}
+pub use board::Board;
+pub use piece::{Color, Piece, PieceKind};
+pub use square::Square;
