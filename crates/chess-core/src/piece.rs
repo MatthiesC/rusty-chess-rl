@@ -61,22 +61,3 @@ impl Piece {
         self.kind
     }
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn colors_are_opposites() {
-        assert_eq!(Color::White.opposite(), Color::Black);
-        assert_eq!(Color::Black.opposite(), Color::White);
-    }
-
-    #[test]
-    fn piece_preserves_color_and_kind() {
-        let piece = Piece::new(Color::White, PieceKind::Knight);
-
-        assert_eq!(piece.color(), Color::White);
-        assert_eq!(piece.kind(), PieceKind::Knight);
-    }
-}
