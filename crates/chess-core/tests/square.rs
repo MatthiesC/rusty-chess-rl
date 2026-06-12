@@ -1,3 +1,5 @@
+//! Integration tests for validated board coordinates.
+
 use chess_core::Square;
 
 #[test]

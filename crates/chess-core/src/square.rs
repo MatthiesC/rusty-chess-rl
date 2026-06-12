@@ -1,7 +1,24 @@
+//! Validated chess-board coordinates.
+//!
+//! [`Square`] provides a compact index while preventing callers from constructing coordinates
+//! outside the 8-by-8 board.
+
 /// A square on a chess board.
 ///
 /// Files and ranks are zero-based: file `0` is `a`, rank `0` is rank `1`, and square index `0`
 /// is `a1`. A `Square` always contains a valid board index.
+///
+/// # Examples
+///
+/// ```
+/// use chess_core::Square;
+///
+/// let e4: Square = Square::new(4, 3).expect("e4 is on the board");
+///
+/// assert_eq!(e4.file(), 4);
+/// assert_eq!(e4.rank(), 3);
+/// assert_eq!(e4.index(), 28);
+/// ```
 #[derive(Clone, Copy, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub struct Square(u8);
 

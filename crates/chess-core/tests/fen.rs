@@ -1,3 +1,5 @@
+//! Integration tests for parsing and serializing the supported FEN subset.
+
 use chess_core::{Board, Color, FenError, Piece, PieceKind, Position, Square};
 
 const STARTING_FEN: &str = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w";

@@ -1,3 +1,8 @@
+//! Complete position state currently supported by the core engine.
+//!
+//! A [`Position`] combines piece placement with the side to move. Future rule state will be added
+//! here as castling, en passant, and draw rules are implemented.
+
 use crate::{Board, Color};
 
 /// A chess position containing piece placement and the side to move.

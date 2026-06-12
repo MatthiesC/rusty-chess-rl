@@ -1,3 +1,5 @@
+//! Integration tests for position state and mutation.
+
 use chess_core::{Board, Color, Piece, PieceKind, Position, Square};
 
 fn square(file: u8, rank: u8) -> Square {

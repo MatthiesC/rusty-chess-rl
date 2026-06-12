@@ -1,3 +1,8 @@
+//! Board storage, basic mutation, and ASCII rendering.
+//!
+//! A [`Board`] contains only piece placement. State that applies to a complete position, such as
+//! the side to move, belongs to [`crate::Position`].
+
 use std::fmt;
 
 use crate::{Color, Move, MoveError, MoveOutcome, Piece, PieceKind, Square};
@@ -9,6 +14,19 @@ use crate::{Color, Move, MoveError, MoveOutcome, Piece, PieceKind, Square};
 ///
 /// Its [`fmt::Display`] representation renders an ASCII board with uppercase white pieces,
 /// lowercase black pieces, and `.` for empty squares.
+///
+/// # Examples
+///
+/// ```
+/// use chess_core::{Board, Color, Piece, PieceKind, Square};
+///
+/// let mut board: Board = Board::empty();
+/// let e4: Square = Square::new(4, 3).expect("e4 is on the board");
+/// let pawn: Piece = Piece::new(Color::White, PieceKind::Pawn);
+///
+/// board.set_piece(e4, Some(pawn));
+/// assert_eq!(board.piece_at(e4), Some(pawn));
+/// ```
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct Board {
     squares: [Option<Piece>; Square::COUNT as usize],
@@ -24,6 +42,9 @@ impl Board {
     }
 
     /// Creates a board with pieces in the standard starting position.
+    ///
+    /// This initializes only piece placement. Use [`crate::Position::starting_position`] when the
+    /// side to move is also required.
     #[must_use]
     pub fn starting_position() -> Self {
         const BACK_RANK: [PieceKind; Square::FILE_COUNT as usize] = [
@@ -90,6 +111,8 @@ impl Board {
     }
 
     /// Iterates over every square and its optional piece from `a1` to `h8`.
+    ///
+    /// The stable index order is useful for deterministic state encoding and comparisons.
     pub fn iter(&self) -> impl Iterator<Item = (Square, Option<Piece>)> + '_ {
         self.squares.iter().enumerate().map(|(index, piece)| {
             let square: Square = Square::from_index(index as u8)

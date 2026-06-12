@@ -1,3 +1,5 @@
+//! Integration tests for board storage, mutation, iteration, and rendering.
+
 use chess_core::{Board, Color, Piece, PieceKind, Square};
 
 fn square(file: u8, rank: u8) -> Square {

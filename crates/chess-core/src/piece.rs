@@ -1,3 +1,8 @@
+//! Chess colors, piece kinds, and colored pieces.
+//!
+//! The types in this module describe piece identity only. They do not contain board coordinates or
+//! movement behavior.
+
 /// The side to which a chess piece belongs.
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum Color {
@@ -36,6 +41,9 @@ pub enum PieceKind {
 }
 
 /// A chess piece with its kind and color.
+///
+/// `Piece` is a small immutable value. Its location is determined by the [`crate::Board`] that
+/// contains it.
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub struct Piece {
     color: Color,
@@ -61,6 +69,7 @@ impl Piece {
         self.kind
     }
 
+    /// Returns the conventional single-character symbol for rendering and FEN serialization.
     pub(crate) const fn symbol(self) -> char {
         match (self.color, self.kind) {
             (Color::White, PieceKind::Pawn) => 'P',

@@ -1,3 +1,5 @@
+//! Integration tests for rule-agnostic move descriptions and application.
+
 use chess_core::{Board, Color, Move, MoveError, MoveOutcome, Piece, PieceKind, Square};
 
 fn square(file: u8, rank: u8) -> Square {

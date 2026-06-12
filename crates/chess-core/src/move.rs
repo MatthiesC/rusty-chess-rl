@@ -1,3 +1,8 @@
+//! Basic move descriptions, application results, and errors.
+//!
+//! These types describe rule-agnostic piece relocation. Chess-rule validation and move generation
+//! will be layered on top separately.
+
 use std::fmt;
 
 use crate::{Piece, Square};
@@ -6,6 +11,19 @@ use crate::{Piece, Square};
 ///
 /// A move describes only its source and destination. It does not imply that the move follows
 /// chess rules.
+///
+/// # Examples
+///
+/// ```
+/// use chess_core::{Move, Square};
+///
+/// let e2: Square = Square::new(4, 1).expect("e2 is on the board");
+/// let e4: Square = Square::new(4, 3).expect("e4 is on the board");
+/// let chess_move: Move = Move::new(e2, e4);
+///
+/// assert_eq!(chess_move.from(), e2);
+/// assert_eq!(chess_move.to(), e4);
+/// ```
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub struct Move {
     from: Square,
@@ -40,6 +58,7 @@ pub struct MoveOutcome {
 }
 
 impl MoveOutcome {
+    /// Creates an outcome for a moved piece and an optional captured piece.
     pub(crate) const fn new(moved: Piece, captured: Option<Piece>) -> Self {
         Self { moved, captured }
     }

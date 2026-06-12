@@ -1,3 +1,5 @@
+//! Integration tests for the current Python-binding scaffold.
+
 use chess_py::add;
 
 #[test]

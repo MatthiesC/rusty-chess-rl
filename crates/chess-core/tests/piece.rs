@@ -1,3 +1,5 @@
+//! Integration tests for colors, piece kinds, and pieces.
+
 use chess_core::{Color, Piece, PieceKind};
 
 #[test]
