@@ -1,8 +1,17 @@
+//! Parsing and serialization for the supported Forsyth-Edwards Notation subset.
+//!
+//! This module handles exactly two fields: piece placement and active color. Castling rights,
+//! en passant, and move counters are intentionally rejected until the corresponding engine state
+//! exists.
+
 use std::{fmt, str::FromStr};
 
 use crate::{Board, Color, Piece, PieceKind, Position, Square};
 
 /// An error encountered while parsing the supported two-field FEN subset.
+///
+/// Parsing validates the number and width of ranks, all piece and empty-square symbols, and the
+/// active-color field. It does not validate whether the represented position is legal chess.
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum FenError {
     /// The FEN does not contain exactly piece placement and active color fields.
@@ -69,6 +78,21 @@ impl fmt::Display for FenError {
 
 impl std::error::Error for FenError {}
 
+/// Parses piece placement and active color from the supported FEN subset.
+///
+/// Leading, trailing, and repeated whitespace between the two fields is accepted. Any additional
+/// FEN fields are rejected with [`FenError::InvalidFieldCount`].
+///
+/// # Examples
+///
+/// ```
+/// use chess_core::{Color, Position};
+///
+/// let position: Position = "8/8/8/8/8/8/8/K6k b".parse()?;
+///
+/// assert_eq!(position.side_to_move(), Color::Black);
+/// # Ok::<(), chess_core::FenError>(())
+/// ```
 impl FromStr for Position {
     type Err = FenError;
 
@@ -87,6 +111,10 @@ impl FromStr for Position {
     }
 }
 
+/// Serializes a position as canonical piece placement followed by active color.
+///
+/// Consecutive empty squares are compressed into one digit, and ranks are written from rank 8 to
+/// rank 1.
 impl fmt::Display for Position {
     fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
         write_board(formatter, self.board())?;
@@ -98,6 +126,10 @@ impl fmt::Display for Position {
     }
 }
 
+/// Parses the piece-placement field into a board.
+///
+/// Each rank must describe exactly eight squares, and empty-square counts must use one digit from
+/// `1` through `8`.
 fn parse_board(placement: &str) -> Result<Board, FenError> {
     let ranks: Vec<&str> = placement.split('/').collect();
     if ranks.len() != Square::RANK_COUNT as usize {
@@ -156,6 +188,7 @@ fn parse_board(placement: &str) -> Result<Board, FenError> {
     Ok(board)
 }
 
+/// Parses the active-color field.
 fn parse_active_color(active_color: &str) -> Result<Color, FenError> {
     match active_color {
         "w" => Ok(Color::White),
@@ -164,6 +197,7 @@ fn parse_active_color(active_color: &str) -> Result<Color, FenError> {
     }
 }
 
+/// Converts a valid FEN empty-square digit into its numeric count.
 fn parse_empty_count(symbol: char) -> Result<u8, FenError> {
     match symbol {
         '1'..='8' => Ok(symbol as u8 - b'0'),
@@ -171,6 +205,9 @@ fn parse_empty_count(symbol: char) -> Result<u8, FenError> {
     }
 }
 
+/// Converts a FEN piece symbol into a strongly typed piece.
+///
+/// Uppercase symbols represent white pieces and lowercase symbols represent black pieces.
 fn parse_piece(symbol: char) -> Result<Piece, FenError> {
     let piece: Piece = match symbol {
         'P' => Piece::new(Color::White, PieceKind::Pawn),
@@ -191,6 +228,7 @@ fn parse_piece(symbol: char) -> Result<Piece, FenError> {
     Ok(piece)
 }
 
+/// Writes canonical FEN piece placement for a board.
 fn write_board(formatter: &mut fmt::Formatter<'_>, board: &Board) -> fmt::Result {
     for rank in (0..Square::RANK_COUNT).rev() {
         let mut empty_count: u8 = 0;
